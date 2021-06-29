@@ -1,9 +1,8 @@
 package TRAININGJAVA;
 
-import org.postgresql.core.SqlCommand;
-
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.Iterator;
 
 public class Main6 {
 
@@ -13,6 +12,39 @@ public class Main6 {
 
     public static void main(String[] args) throws SQLException {
 
+        //1
+        User user1 = new User();
+        user1.setId(1);
+        user1.setFirstName("Name1");
+        user1.setLastName("LastName1");
+        user1.setCompanyId(4321);
+        user1.setRole("juniorDev");
+
+        //2
+        User user2 = new User();
+        user2.setId(2);
+        user2.setFirstName("Name2");
+        user2.setLastName("LastName2");
+        user2.setCompanyId(4321);
+        user2.setRole("juniorDev");
+
+        //3
+        User user3 = new User();
+        user3.setId(3);
+        user3.setFirstName("Name3");
+        user3.setLastName("LastName3");
+        user3.setCompanyId(4321);
+        user3.setRole("middleDev");
+
+        //
+        ArrayList userList = new ArrayList();
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
+
+        //create table users in training db
 
         String createSQLTable = "CREATE TABLE users" +
                 "(id INTEGER not NULL, " +
@@ -21,41 +53,49 @@ public class Main6 {
                 "companyID INTEGER not NULL, " +
                 "role VARCHAR(30))";
 
-        String insertUser1 = "INSERT INTO users VALUES(1, 'firstName1', 'lastName1', 4321, 'junior')";
-        String insertUser2 = "INSERT INTO users VALUES(2, 'firstName2', 'lastName2', 4321, 'junior')";
-        String insertUser3 = "INSERT INTO users VALUES(3, 'firstName3', 'lastName3', 4321, 'middle')";
-        String insertUser4 = "INSERT INTO users VALUES(4, 'firstName4', 'lastName4', 4321, 'lead')";
-        String insertUser5 = "INSERT INTO users VALUES(5, 'firstName5', 'lastName5', 4321, 'QA')";
-
-        String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
-
-        //create table users in training db
         try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement statement = connection.createStatement();){
             statement.executeUpdate(createSQLTable);
-            System.out.println("Table create successfully");
-        }
+        } catch (SQLException e){
+            e.printStackTrace();
+            }
 
         //add entries into users table
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement statement = connection.createStatement();){
-            statement.executeUpdate(insertUser1);
-            System.out.println("Update table successfully");
-        }
+
+            Iterator iterator = userList.iterator();
+            while (iterator.hasNext()) {
+                User user = (User)iterator.next();
+
+                String insertUser = "INSERT INTO users VALUES("
+                                    + user.getId() +   ", '"
+                                    + user.getFirstName() +  "', '"
+                                    + user.getLastName()  +  "', "
+                                    + user.getCompanyId()  +  ", '"
+                                    + user.getRole() + "')";
+
+                try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+                     Statement statement = connection.createStatement();) {
+                    statement.executeUpdate(insertUser);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
 
         //get entries from db to console
+
         try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(getUser);){
-
-            while (resultSet.next()) {
-                System.out.println("| ID: " + resultSet.getInt("id") +
-                        " | First name: " + resultSet.getString("firstName") +
-                        " | Last name: " + resultSet.getString("lastName") +
-                        " | Company ID: " + resultSet.getString("companyID") +
-                        " | Role: " + resultSet.getString("role") + " |");
-            }
-        }
+                while (resultSet.next()) {
+                    System.out.println("| ID: " + resultSet.getInt("id") +
+                            " | First name: " + resultSet.getString("firstName") +
+                            " | Last name: " + resultSet.getString("lastName") +
+                            " | Company ID: " + resultSet.getString("companyID") +
+                            " | Role: " + resultSet.getString("role") + " |");
+                }
+        } catch (SQLException e){
+            e.printStackTrace();
+             }
     }
 }
 
