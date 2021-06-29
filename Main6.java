@@ -29,33 +29,33 @@ public class Main6 {
 
         String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
 
-    //create table users in training db
-    try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        Statement statement = connection.createStatement();){
-        statement.executeUpdate(createSQLTable);
-        System.out.println("Table create successfully");
-    }
-
-    //add entries into users table
-    try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        Statement statement = connection.createStatement();){
-        statement.executeUpdate(insertUser1);
-        System.out.println("Update table successfully");
-    }
-
-    //get entries from db to console
-    try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(getUser);){
-
-        while (resultSet.next()) {
-            System.out.println("ID: " + resultSet.getInt("id") +
-                    " First name: " + resultSet.getString("firstName") +
-                    " Last name: " + resultSet.getString("lastName") +
-                    " Company ID: " + resultSet.getString("companyID") +
-                    " Role: " + resultSet.getString("role"));
+        //create table users in training db
+        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement statement = connection.createStatement();){
+            statement.executeUpdate(createSQLTable);
+            System.out.println("Table create successfully");
         }
-    }
+
+        //add entries into users table
+        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement statement = connection.createStatement();){
+            statement.executeUpdate(insertUser1);
+            System.out.println("Update table successfully");
+        }
+
+        //get entries from db to console
+        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(getUser);){
+
+            while (resultSet.next()) {
+                System.out.println("| ID: " + resultSet.getInt("id") +
+                        " | First name: " + resultSet.getString("firstName") +
+                        " | Last name: " + resultSet.getString("lastName") +
+                        " | Company ID: " + resultSet.getString("companyID") +
+                        " | Role: " + resultSet.getString("role") + " |");
+            }
+        }
     }
 }
 
