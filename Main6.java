@@ -43,7 +43,7 @@ public class Main6 {
         userList.add(user3);
 
         String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
-
+/*
         //create table users in training db
 
         String createSQLTable = "CREATE TABLE users" +
@@ -58,56 +58,36 @@ public class Main6 {
             statement.executeUpdate(createSQLTable);
         } catch (SQLException e){
             e.printStackTrace();
-            }
+        }
+*/
+        //create connection
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement statement = connection.createStatement()) {
 
-        //add entries into users table
-
+            //add entries into db
             Iterator iterator = userList.iterator();
+
             while (iterator.hasNext()) {
                 User user = (User)iterator.next();
-
                 String insertUser = "INSERT INTO users VALUES("
-                                    + user.getId() +   ", '"
-                                    + user.getFirstName() +  "', '"
-                                    + user.getLastName()  +  "', "
-                                    + user.getCompanyId()  +  ", '"
-                                    + user.getRole() + "')";
+                        + user.getId() +   ", '"
+                        + user.getFirstName() +  "', '"
+                        + user.getLastName()  +  "', "
+                        + user.getCompanyId()  +  ", '"
+                        + user.getRole() + "')";
+                 statement.executeUpdate(insertUser);
+                }
 
-                try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-                     Statement statement = connection.createStatement();) {
-                    statement.executeUpdate(insertUser);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            //get db entries & out to console
+            ResultSet resultSet = statement.executeQuery(getUser);
+
+            while (resultSet.next()) {
+                System.out.println("| ID: " + resultSet.getInt("id") +
+                        " | First name: " + resultSet.getString("firstName") +
+                        " | Last name: " + resultSet.getString("lastName") +
+                        " | Company ID: " + resultSet.getString("companyID") +
+                        " | Role: " + resultSet.getString("role") + " |");
                 }
             }
-
-        //get entries from db to console
-
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(getUser);){
-                while (resultSet.next()) {
-                    System.out.println("| ID: " + resultSet.getInt("id") +
-                            " | First name: " + resultSet.getString("firstName") +
-                            " | Last name: " + resultSet.getString("lastName") +
-                            " | Company ID: " + resultSet.getString("companyID") +
-                            " | Role: " + resultSet.getString("role") + " |");
-                }
-        } catch (SQLException e){
-            e.printStackTrace();
-             }
+        }
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
