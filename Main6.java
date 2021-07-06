@@ -1,8 +1,7 @@
 package TRAININGJAVA;
 
-import java.util.ArrayList;
 import java.sql.*;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class Main6 {
 
@@ -12,13 +11,14 @@ public class Main6 {
 
     public static void main(String[] args) throws SQLException {
         //
-        ArrayList userList = new ArrayList();
+        ArrayList<User> userList = new ArrayList();
+
         userList.add(new User(1, "Name1", "LastName1", 4321, "juniorDev"));
         userList.add(new User(2, "Name2", "LastName2", 4321, "middleDev"));
         userList.add(new User(3, "Name3", "LastName3", 4321, "QA"));
 
         String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
-
+/*
         //create table users in training db
 
         String createSQLTable = "CREATE TABLE users" +
@@ -34,17 +34,14 @@ public class Main6 {
         } catch (SQLException e){
             e.printStackTrace();
         }
-
+*/
         //create connection
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement statement = connection.createStatement()) {
 
             //add entries into db
-            Iterator iterator = userList.iterator();
-
-            while (iterator.hasNext()) {
-                User user = (User)iterator.next();
-                String insertUser = "INSERT INTO users VALUES("
+           for (User user : userList) {
+                        String insertUser = "INSERT INTO users VALUES("
                         + user.getId() +   ", '"
                         + user.getFirstName() +  "', '"
                         + user.getLastName()  +  "', "
