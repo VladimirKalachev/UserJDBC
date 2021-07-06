@@ -20,7 +20,6 @@ public class Main6 {
         String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
 /*
         //create table users in training db
-
         String createSQLTable = "CREATE TABLE users" +
                 "(id INTEGER not NULL, " +
                 "firstName VARCHAR(30), " +
