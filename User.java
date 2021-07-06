@@ -8,6 +8,14 @@ public class User implements java.io.Serializable{
     private int companyId;
     private String role;
 
+    public User(int id, String firstName, String lastName, int companyId, String role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.companyId = companyId;
+        this.role = role;
+    }
+
     //
     public int getId(){
         return id;
