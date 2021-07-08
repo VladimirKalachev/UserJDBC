@@ -39,15 +39,15 @@ public class Main6 {
              Statement statement = connection.createStatement()) {
 
             //add entries into db
-           for (User user : userList) {
-                        String insertUser = "INSERT INTO users VALUES("
-                        + user.getId() +   ", '"
-                        + user.getFirstName() +  "', '"
-                        + user.getLastName()  +  "', "
-                        + user.getCompanyId()  +  ", '"
+            for (User user : userList) {
+                String insertUser = "INSERT INTO users VALUES("
+                        + user.getId() + ", '"
+                        + user.getFirstName() + "', '"
+                        + user.getLastName() + "', "
+                        + user.getCompanyId() + ", '"
                         + user.getRole() + "')";
-                 statement.executeUpdate(insertUser);
-                }
+                statement.executeUpdate(insertUser);
+            }
 
             //get db entries & out to console
             ResultSet resultSet = statement.executeQuery(getUser);
@@ -58,7 +58,7 @@ public class Main6 {
                         " | Last name: " + resultSet.getString("lastName") +
                         " | Company ID: " + resultSet.getString("companyID") +
                         " | Role: " + resultSet.getString("role") + " |");
-                }
             }
         }
     }
+}
