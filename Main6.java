@@ -28,7 +28,7 @@ public class Main6 {
                 "role VARCHAR(30))";
 
         try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement statement = connection.createStatement();){
+            Statement statement = connection.createStatement()){
             statement.executeUpdate(createSQLTable);
         } catch (SQLException e){
             e.printStackTrace();
