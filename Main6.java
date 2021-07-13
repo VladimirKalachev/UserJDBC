@@ -17,14 +17,14 @@ public class Main6 {
         userList.add(new User(2, "Name2", "LastName2", 4321, "middleDev"));
         userList.add(new User(3, "Name3", "LastName3", 4321, "QA"));
 
-        String getUser = "SELECT id, firstName, lastName, companyID, role FROM users";
-/*
+        String getUser = "SELECT id, first_name, last_name, company_id, role FROM users";
+
         //create table users in training db
         String createSQLTable = "CREATE TABLE users" +
                 "(id INTEGER not NULL, " +
-                "firstName VARCHAR(30), " +
-                "lastName VARCHAR(30), " +
-                "companyID INTEGER not NULL, " +
+                "first_name VARCHAR(30), " +
+                "last_name VARCHAR(30), " +
+                "company_id INTEGER not NULL, " +
                 "role VARCHAR(30))";
 
         try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -33,7 +33,7 @@ public class Main6 {
         } catch (SQLException e){
             e.printStackTrace();
         }
-*/
+
         //create connection
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement statement = connection.createStatement()) {
@@ -54,9 +54,9 @@ public class Main6 {
 
             while (resultSet.next()) {
                 System.out.println("| ID: " + resultSet.getInt("id") +
-                        " | First name: " + resultSet.getString("firstName") +
-                        " | Last name: " + resultSet.getString("lastName") +
-                        " | Company ID: " + resultSet.getString("companyID") +
+                        " | First name: " + resultSet.getString("first_name") +
+                        " | Last name: " + resultSet.getString("last_name") +
+                        " | Company ID: " + resultSet.getString("company_id") +
                         " | Role: " + resultSet.getString("role") + " |");
             }
         }
